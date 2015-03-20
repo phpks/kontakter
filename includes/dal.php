@@ -31,7 +31,9 @@ function getDbConnection()
  *
  * Returns an array of the form (contact ID => contact name)
  *
- * @return array|null (Returns null if no such contact exists or in case of database/sql error)
+ * @return array|null 
+		(	Returns null in case of database/sql error. 
+			Returns an empty array if no contacts exist.	)
  */
 function get_all_contacts()
 {
@@ -41,13 +43,12 @@ function get_all_contacts()
  
 	if ($stmt->execute()){
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		//return $result;
 		
 		foreach($result as $data){
 			$contactsList[$data['id']] = $data;
 		}
 		if (isset($contactsList)){return $contactsList;}
-		else {return null;}
+		else {return $result;}
 
 	}
 	else{

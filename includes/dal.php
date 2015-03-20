@@ -3,7 +3,7 @@
 /**
  * Simple Contact Management App
  *
- * functions.php - Shared functions
+ * dal.php - Shared functions
  *
  */
 
@@ -31,7 +31,7 @@ function getDbConnection()
  *
  * Returns an array of the form (contact ID => contact name)
  *
- * @return array
+ * @return array|null (Returns null if no such contact exists or in case of database/sql error)
  */
 function get_all_contacts()
 {
@@ -41,11 +41,14 @@ function get_all_contacts()
  
 	if ($stmt->execute()){
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		//return $result;
+		
 		foreach($result as $data){
-			$contactsList[$data['id']] = [$data['name'], $data['email'], $data['phone_num'], $data['image_path']];
+			$contactsList[$data['id']] = $data;
 		}
 		if (isset($contactsList)){return $contactsList;}
 		else {return null;}
+
 	}
 	else{
 		return null;
@@ -56,7 +59,7 @@ function get_all_contacts()
  * Get full contact information
  *
  * @param  integer $contactId
- * @return array|null Returns null if no such contact exists
+ * @return array|null (Returns null if no such contact exists)
  */
 function get_contact($contactId)
 {
@@ -80,13 +83,14 @@ function get_contact($contactId)
  *
  * @param  string $name
  * @param  string $email
- * @param  string $phone Phone is optional
+ * @param  string $phone (Optional)
+ * @param  string $image_path (Optional)
  * @return boolean
  */
 function add_contact($name, $email, $phone = null, $image_path = null)
 {
     $dbh = getDbConnection();
-	$sql = 	"INSERT INTO contacts " . "(name, email, phone_num) VALUES (?,?,?,?)";
+	$sql = 	"INSERT INTO contacts (name, email, phone_num, image_path) VALUES (?,?,?,?)";
     $stmt = $dbh->prepare($sql);
 	if ($stmt->execute(array($name, $email, $phone, $image_path))){
 		return true;
@@ -109,7 +113,7 @@ function add_contact($name, $email, $phone = null, $image_path = null)
 function delete_contact($contactId)
 {
     $dbh = getDbConnection();
-	$sql = 	"DELETE contacts  WHERE id = ?";
+	$sql = 	"DELETE FROM contacts WHERE id = ?";
     $stmt = $dbh->prepare($sql);
 	if ($stmt->execute($contactId)){
 		return true;

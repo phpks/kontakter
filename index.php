@@ -40,7 +40,7 @@
 			<th> image</th>
 		</thead> 
 		<tbody>
-		<?php var_dump(get_all_contacts()); ?>
+		<!--?php var_dump(get_all_contacts()); ?-->
 		<?php foreach (get_all_contacts() as $contact) { ?>
 			<tr>
 			<td><?php echo $contact['id'] ?></td>

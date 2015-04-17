@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
-	require_once ('includes/dal.php'); 
-	$contacts = get_all_contacts();
+	require_once ('includes/Contact.php'); 
+	//$contacts = get_all_contacts();
 	// $contact = array
 	// ( 
 	// 	array('id' => '1','name' => 'dudu', 'phone_num' => '056565656', 'img_path' => '1.png'),
@@ -41,12 +41,12 @@
 		</thead> 
 		<tbody>
 		<!--?php var_dump(get_all_contacts()); ?-->
-		<?php foreach (get_all_contacts() as $contact) { ?>
+		<?php foreach (Contact::getAllContacts() as $contact) { ?>
 			<tr>
-			<td><?php echo $contact['id'] ?></td>
-			<td><?php echo $contact['name'] ?></td>
-			<td><?php echo $contact['phone_num'] ?></td>
-			<td> <img src="images/<?php echo $contact['image_path'] ?>" alt="">  </td>
+			<td><?php echo $contact->id ?></td>
+			<td><?php echo $contact->name ?></td>
+			<td><?php echo $contact->phoneNum ?></td>
+			<td> <img src="images/<?php echo $contact->imagePath ?>" alt="">  </td>
 			</tr>	
 		<?php } ?>
 		</tbody>	
